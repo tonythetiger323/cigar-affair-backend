@@ -7,11 +7,12 @@
   "author": "",
   "scripts": {
     "build": "nest build",
+    "precommit": "lint-staged && npm run lint",
+    "commit": "cz",
     "eslint:check": "eslint \"{src,apps,libs,test}/**/*.ts\"",
     "eslint:fix": "npm run eslint:check -- --fix",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "npm run eslint:check && npm run prettier:check",
-    "precommit": "lint-staged && npm run lint",
     "prepare": "husky install",
     "prepush": "npm run test",
     "prettier:check": "prettier --check ./**/*.{ts,js,json,*rc}",
