@@ -11,7 +11,7 @@
     "commit": "cz",
     "eslint:check": "eslint \"{src,apps,libs,test}/**/*.ts\"",
     "eslint:fix": "npm run eslint:check -- --fix",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
+    "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "lint": "npm run eslint:check && npm run prettier:check",
     "prepare": "husky install",
     "prepush": "npm run test",
@@ -20,11 +20,11 @@
     "start": "nest start",
     "start:debug": "nest start --debug --watch",
     "start:dev": "nest start --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/apps/cigar-affair-backend/main",
     "test": "jest",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:e2e": "jest --config ./apps/cigar-affair-backend/test/jest-e2e.json",
     "test:watch": "jest --watch"
   },
   "jest": {
@@ -45,8 +45,8 @@
     },
     "rootDir": ".",
     "roots": [
-      "<rootDir>/src/",
-      "<rootDir>/libs/"
+      "<rootDir>/libs/",
+      "<rootDir>/apps/"
     ],
     "testEnvironment": "node",
     "testRegex": ".*\\.spec\\.ts$",
