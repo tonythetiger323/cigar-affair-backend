@@ -1,0 +1,38 @@
+steps:
+ # Restore cache
+ - name: "gcr.io/$PROJECT_ID/restore_cache"
+   id: "Restoring Pnpm modules cache"
+   args:
+   - "--bucket=gs://${PROJECT_ID}_cloudbuild"
+   - "--key=pnpm-packages-$( checksum pnpm-lock.yaml )"  
+ # Pnpm install 
+ - name: "bomarconi/pnpm:latest"  
+   id: "pnpm install"
+   entrypoint: "pnpm" 
+   args: ["install"]
+ # Save cache
+ - name: "gcr.io/$PROJECT_ID/save_cache"
+   id: "Saving pnpm cache"
+   args:
+   - "--bucket=gs://${PROJECT_ID}_cloudbuild"
+   - "--key=pnpm-packages-$( checksum pnpm-lock.yaml )"
+   - "--path=node_modules"
+   - "--no-clobber"
+   waitFor:
+    - "pnpm install"
+ # Run tests with coverage
+ - name: "bomarconi/pnpm:latest"
+   id: "Run tests with coverage"
+   entrypoint: "pnpm"
+   args: ["test:cov"]
+ # Upload coverage to Codacy
+ - name: "bomarconi/pnpm:latest"
+   id: "Upload coverage to Codacy"
+   env:
+   - "CODACY_PROJECT_TOKEN=89010abb82ce467f9e0cbf10d7a1c9f8"
+   script: |
+     #!/usr/bin/env bash
+     bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./coverage/lcov.info
+
+   
+ 
