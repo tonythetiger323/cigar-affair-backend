@@ -1,11 +1,4 @@
 steps:
- # Restore cache
- - name: "gcr.io/$PROJECT_ID/restore_cache"
-   id: "Restoring Pnpm modules cache"
-   args:
-   - "--bucket=gs://${PROJECT_ID}_cloudbuild"
-   - "--key=pnpm-packages-$( checksum pnpm-lock.yaml )"  
- # Pnpm install 
  - name: "bomarconi/pnpm:latest"  
    id: "pnpm install"
    entrypoint: "pnpm" 
