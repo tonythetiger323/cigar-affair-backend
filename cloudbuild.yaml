@@ -3,16 +3,6 @@ steps:
    id: "pnpm install"
    entrypoint: "pnpm" 
    args: ["install"]
- # Save cache
- - name: "gcr.io/$PROJECT_ID/save_cache"
-   id: "Saving pnpm cache"
-   args:
-   - "--bucket=gs://${PROJECT_ID}_cloudbuild"
-   - "--key=pnpm-packages-$( checksum pnpm-lock.yaml )"
-   - "--path=node_modules"
-   - "--no-clobber"
-   waitFor:
-    - "pnpm install"
  # Run tests with coverage
  - name: "bomarconi/pnpm:latest"
    id: "Run tests with coverage"
